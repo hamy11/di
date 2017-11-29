@@ -6,12 +6,12 @@ namespace TagsCloudVisualisation
     public class Cloud
     {
         public Point Center;
-        public IEnumerable<Rectangle> Rectangles;
+        public IEnumerable<WordPrintInfo> WordPrintInfos;
 
-        public Cloud(Point center, IEnumerable<Rectangle> rectangles)
+        public Cloud(Point center, IEnumerable<WordPrintInfo> wordPrintInfos)
         {
             Center = center;
-            Rectangles = rectangles;
+            WordPrintInfos = wordPrintInfos;
         }
     }
 }
