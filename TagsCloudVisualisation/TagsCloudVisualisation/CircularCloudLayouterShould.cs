@@ -5,6 +5,7 @@ using System.Linq;
 using FluentAssertions;
 using NUnit.Framework;
 using NUnit.Framework.Interfaces;
+using TagsCloudVisualisation.ArchimedianSpiralPlacer;
 
 namespace TagsCloudVisualisation
 {
@@ -27,7 +28,7 @@ namespace TagsCloudVisualisation
         {
             if (!TestContext.CurrentContext.Result.Outcome.Status.Equals(TestStatus.Failed)) return;
             var path = $"{TestContext.CurrentContext.TestDirectory}\\{TestContext.CurrentContext.Test.Name}";
-            CloudVisualizer.Visualize(cloud, path);
+            //CloudVisualizer.Visualize(cloud, path);
             Console.WriteLine($"Tag cloud visualization saved to file {path}");
         }
 
@@ -52,7 +53,7 @@ namespace TagsCloudVisualisation
                 .WithMessage("Сторона прямоугольника для текста не может быть равна 0");
         }*/
 
-        
+
     }
 
     [TestFixture]
@@ -74,7 +75,7 @@ namespace TagsCloudVisualisation
         {
             if (!TestContext.CurrentContext.Result.Outcome.Status.Equals(TestStatus.Failed)) return;
             var path = $"{TestContext.CurrentContext.TestDirectory}\\{TestContext.CurrentContext.Test.Name}";
-            CloudVisualizer.Visualize(cloud, path);
+            //CloudVisualizer.Visualize(cloud, path);
             Console.WriteLine($"Tag cloud visualization saved to file {path}");
         }
 
@@ -82,12 +83,12 @@ namespace TagsCloudVisualisation
         public void PutNextRectangle_AfterPuttingTwoRectangles_RectanglesDoesNotIntersect()
         {
             //var layouter = new CircularCloudLayouter(center);
-            var placer = new ArchimedeanSpiralPlacer(center);
+            var placer = new ArchimedeanSpiralPlacer(center, new ArchimedeanSpiralPlacerSettings());
             var firstRectangle = placer.PlaceNextRectangle(new Size(10, 10));
             var secondRectangle = placer.PlaceNextRectangle(new Size(10, 10));
-            var printData = new List<Rectangle> {firstRectangle, secondRectangle}.Select(x => new WordPrintInfo("empty", x));
+            //var printData = new List<Rectangle> {firstRectangle, secondRectangle}.Select(x => new WordPrintInfo("empty", x));
 
-            cloud = new Cloud(center, printData);
+            //cloud = new Cloud(center, printData);
             firstRectangle.IntersectsWith(secondRectangle).Should().BeFalse();
         }
 
@@ -98,19 +99,20 @@ namespace TagsCloudVisualisation
         public void PutNextRectangle_AfterPuttingSeveralRectanglesWithRandomSize_RectanglesDoesNotIntersect(
             int count, int minSizeX, int maxSizeX, int minSizeY, int maxSizeY)
         {
-            var layouter = new CircularCloudLayouter(center, new ArchimedeanSpiralPlacer(center));
-            var rectangles = new List<WordPrintInfo>();
+            var layouter = new CircularCloudLayouter(center,
+                new ArchimedeanSpiralPlacer(center, new ArchimedeanSpiralPlacerSettings()));
+            var rectangles = new List<Rectangle>();
             for (var i = 0; i < count; i++)
             {
                 var size = new Size(rnd.Next(minSizeX, maxSizeX), rnd.Next(minSizeY, maxSizeY));
                 var rectangle = layouter.PutNextRectangle(size);
-                rectangles.Add(new WordPrintInfo("", rectangle));
+                rectangles.Add(rectangle);
             }
-            cloud = new Cloud(center, rectangles);
+            //cloud = new Cloud(rectangles);
             for (var i = 0; i < count; i++)
                 for (var j = i + 1; j < count; j++)
                 {
-                    rectangles[i].WordRectangle.IntersectsWith(rectangles[j].WordRectangle).Should().BeFalse();
+                    rectangles[i].IntersectsWith(rectangles[j]).Should().BeFalse();
                 }
         }
 
@@ -121,29 +123,30 @@ namespace TagsCloudVisualisation
         public void PutNextRectangle_CircumscribedCircleSquare_MustBeLessOrEqualThanSummarySquare(
             int count, int width, int height)
         {
-            var layouter = new CircularCloudLayouter(center, new ArchimedeanSpiralPlacer(center));
+            var layouter = new CircularCloudLayouter(center,
+                new ArchimedeanSpiralPlacer(center, new ArchimedeanSpiralPlacerSettings()));
             var size = new Size(width, height);
             var datas = new List<WordPrintInfo>();
             for (var i = 0; i < count; i++)
             {
                 var rectangle = layouter.PutNextRectangle(size);
-                datas.Add(new WordPrintInfo("", rectangle));
+                //datas.Add(new WordPrintInfo("", rectangle));
             }
 
-            var summaryRectanglesSquare = count * size.Width * size.Height;
+            var summaryRectanglesSquare = count*size.Width*size.Height;
             var radius = 0.0;
             foreach (var data in datas)
             {
-                var rectangleCenter = new Point(data.WordRectangle.X + data.WordRectangle.Size.Width / 2,
-                    data.WordRectangle.Y + data.WordRectangle.Size.Height / 2);
+                var rectangleCenter = new Point(data.WordRectangle.X + data.WordRectangle.Size.Width/2,
+                    data.WordRectangle.Y + data.WordRectangle.Size.Height/2);
                 var vector = new Point(rectangleCenter.X - center.X, rectangleCenter.Y - center.Y);
                 var distanse = Math.Sqrt(Math.Pow(vector.X, 2) + Math.Pow(vector.Y, 2));
                 if (distanse > radius)
                     radius = distanse;
             }
-            var circumscribedSquare = Math.PI * Math.Pow(radius, 2);
-            cloud = new Cloud(center, datas);
-            circumscribedSquare.Should().BeLessOrEqualTo(summaryRectanglesSquare * 1.1);
+            var circumscribedSquare = Math.PI*Math.Pow(radius, 2);
+            cloud = new Cloud(datas);
+            circumscribedSquare.Should().BeLessOrEqualTo(summaryRectanglesSquare*1.1);
         }
     }
 }

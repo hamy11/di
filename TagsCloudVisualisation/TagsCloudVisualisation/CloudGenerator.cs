@@ -1,65 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Net.Mime;
-using System.Security.AccessControl;
-using NUnit.Framework;
+﻿using System.Collections.Generic;
 
 namespace TagsCloudVisualisation
 {
     public class CloudGenerator
     {
-        private readonly Point center;
         private readonly WordContainer container;
-        private readonly ICircularCloudLayouter layouter;
+        private readonly ICloudLayouter layouter;
 
-        public CloudGenerator(Point center, WordContainer container, ICircularCloudLayouter layouter)
+        public CloudGenerator(WordContainer container, ICloudLayouter layouter)
         {
-            this.center = center;
             this.container = container;
             this.layouter = layouter;
         }
 
-        public Cloud GenerateCloud()
+        public Cloud GenerateCloud(CloudVisualizer visualizer)
         {
             var printData = new List<WordPrintInfo>();
-            foreach (var processedWord in container.GetProcessedWords())
+            foreach (var wordData in container.GetProcessedWords())
             {
-                var wordAsRectangle = layouter.PutNextRectangle(RectangleSizeFromWordData(processedWord));
-                printData.Add(new WordPrintInfo(processedWord.Word, wordAsRectangle));
-                
+                var wordScaleInfo = visualizer.GetWordScaleInfo(wordData);
+                var wordAsRectangle = layouter.PutNextRectangle(wordScaleInfo.WordRectangleSize);
+                printData.Add(new WordPrintInfo(wordData.Word, wordAsRectangle, wordScaleInfo.ScaleFontSize));
             }
-            return new Cloud(center, printData);
-        }
-
-        private Size RectangleSizeFromWordData(WordData wordData)
-        {
-            const int pixelsForSymbol = 13;
-            const int baseHeight = 10;
-
-            String text1 = "Measure this text";
-            Font arialBold = new Font("Arial", 12.0F);
-            Size textSize = Control.
-                
-
-            var realSize = Graphics.MeasureString(wordData.Word, new Font());
-            var sizeMultiplier = 1 + wordData.WordCount/5;
-            var height = baseHeight*sizeMultiplier;
-            var width = height*wordData.Word.Length;
-            return new Size(width, height);
-        }
-    }
-
-    public class WordPrintInfo
-    {
-        public readonly string Word;
-        public readonly Rectangle WordRectangle;
-
-        public WordPrintInfo(string word, Rectangle wordRectangle)
-        {
-            Word = word;
-            WordRectangle = wordRectangle;
+            return new Cloud(printData);
         }
     }
 }
