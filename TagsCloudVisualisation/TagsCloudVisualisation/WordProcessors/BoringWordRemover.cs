@@ -7,7 +7,7 @@ namespace TagsCloudVisualisation.WordProcessors
     {
         public IEnumerable<WordData> ProcessWordData(IEnumerable<WordData> datas)
         {
-            return datas.Where(x => x.WordCount > 5);
+            return datas.Where(x => x.WordCount > 0);
         }
     }
 }
