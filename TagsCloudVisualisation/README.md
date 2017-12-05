@@ -1,5 +1,3 @@
-# Результаты генерации облаков
+﻿# Результаты генерации облаков
 
-![TagCloud](https://)
-![TagCloud](https://)
-![TagCloud](https://)
+![TagCloud](https://i.imgur.com/hL0Mg0T.png)

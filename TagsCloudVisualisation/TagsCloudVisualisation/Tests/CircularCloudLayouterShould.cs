@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Drawing;
-using System.Linq;
 using NUnit.Framework;
 using NUnit.Framework.Interfaces;
 
-namespace TagsCloudVisualisation
+namespace TagsCloudVisualisation.Tests
 {
     [TestFixture]
     public class CircularCloudLayouterShould
