@@ -7,7 +7,7 @@
 ![TagCloud](https://i.imgur.com/5LgWJgD.png)
 
 Облако прямоугольников:
-![TagCloud](https://i.imgur.com/undefined.png)
+![TagCloud](https://i.imgur.com/al8St4Q.png)
 
 
 
