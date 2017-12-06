@@ -30,7 +30,7 @@ namespace TagsCloudVisualisation
             builder.Register(c => new VisualizeSettings()).As<IVisualizeSettings>().SingleInstance();
             builder.Register(c => new ArchimedeanSpiralPlacerSettings()).As<IArchimedeanSpiralPlacerSettings>()
                 .SingleInstance();
-            builder.Register(c => c.Resolve<CloudGenerator>().GenerateCloud(c.Resolve<CloudVisualizer>()))
+            builder.Register(c => c.Resolve<CloudGenerator>().GenerateCloud())
                 .As<Cloud>();
 
             builder.RegisterType<BoringWordRemover>().As<IWordProcessor>();

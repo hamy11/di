@@ -11,7 +11,7 @@ namespace TagsCloudVisualisation
         public bool DrawWordRectangle
         {
             get { return false; }
-            set { throw new NotImplementedException(); }
+            set { }
         }
 
         public Font Font => new Font("Arial", 50, FontStyle.Regular, GraphicsUnit.Pixel);
