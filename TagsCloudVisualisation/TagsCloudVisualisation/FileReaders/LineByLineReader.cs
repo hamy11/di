@@ -6,13 +6,13 @@ namespace TagsCloudVisualisation.FileReaders
 {
     public class LineByLineReader : Reader
     {
-        public LineByLineReader(IFileInfo fileInfo) : base(fileInfo)
+        public LineByLineReader(IReadFileSettings readFileSettings) : base(readFileSettings)
         {
         }
 
         public override IEnumerable<WordData> GetWords()
         {
-            var data = File.ReadAllLines(FileInfo.FileName);
+            var data = File.ReadAllLines(ReadFileSettings.FileName);
             foreach (var word in data)
             {
                 var parts = word.Split(null);

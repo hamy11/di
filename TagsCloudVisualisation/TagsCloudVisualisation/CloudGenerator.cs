@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace TagsCloudVisualisation
 {
-    public class CloudGenerator:ICloudGenerator
+    public class CloudGenerator : ICloudGenerator
     {
         private readonly IWordContainer container;
         private readonly ICloudLayouter layouter;
@@ -17,14 +18,15 @@ namespace TagsCloudVisualisation
 
         public Cloud GenerateCloud()
         {
-            var printData = new List<WordPrintInfo>();
-            foreach (var wordData in container.GetProcessedWords())
-            {
-                var wordScaleInfo = wordScaler.GetWordScaleInfo(wordData);
-                var wordAsRectangle = layouter.PutNextRectangle(wordScaleInfo.WordRectangleSize);
-                printData.Add(new WordPrintInfo(wordData.Word, wordAsRectangle, wordScaleInfo));
-            }
+            var printData = container.GetProcessedWords().Select(PrerapeWordDataToPrint).ToList();
             return new Cloud(printData);
+        }
+
+        private WordPrintInfo PrerapeWordDataToPrint(WordData wordData)
+        {
+            var wordScaleInfo = wordScaler.GetWordScaleInfo(wordData);
+            var wordAsRectangle = layouter.PutNextRectangle(wordScaleInfo.WordRectangleSize);
+            return new WordPrintInfo(wordData.Word, wordAsRectangle, wordScaleInfo);
         }
     }
 }

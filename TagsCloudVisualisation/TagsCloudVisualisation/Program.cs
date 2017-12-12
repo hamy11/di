@@ -6,9 +6,9 @@ using System.IO;
 using System.Reflection;
 using Autofac;
 using TagsCloudVisualisation.ArchimedianSpiralPlacer;
+using TagsCloudVisualisation.Common;
 using TagsCloudVisualisation.FileReaders;
 using TagsCloudVisualisation.WordProcessors;
-using FileInfo = TagsCloudVisualisation.FileReaders.FileInfo;
 
 #endregion
 
@@ -18,6 +18,10 @@ namespace TagsCloudVisualisation
     {
         private static void Main(string[] args)
         {
+            //var a = new SettingsManager(new XmlObjectSerializer(), new FileBlobStorage());
+            
+            //a.Save(SettingsManager.CreateDefaultSettings());
+
             var container = GetContainer();
             var provider = container.Resolve<ICloudProvider>();
             provider.ProvideCloud("Cloud of lorem ipsum");
@@ -26,8 +30,16 @@ namespace TagsCloudVisualisation
         private static IContainer GetContainer()
         {
             var builder = new ContainerBuilder();
-            builder.Register(c => new FileInfo("../../words.txt", FileFormat.None)).AsImplementedInterfaces().SingleInstance();
-            builder.Register(c => new VisualizeSettings()).AsImplementedInterfaces().SingleInstance();
+
+            builder.RegisterType<XmlObjectSerializer>().As<IObjectSerializer>();
+            builder.RegisterType<FileBlobStorage>().As<IBlobStorage>();
+            builder.RegisterType<SettingsManager>().AsSelf();
+            builder.Register(c => c.Resolve<SettingsManager>().Load()).As<AppSettings>().SingleInstance();
+            builder.Register(c => c.Resolve<AppSettings>().VisualizeSettings).As<IVisualizeSettings>();
+            builder.Register(c => c.Resolve<AppSettings>().ReadFileSettings).As<IReadFileSettings>();
+
+            //builder.Register(c => new DefaultReadFileSettings("../../words.txt", FileFormat.None)).AsImplementedInterfaces().SingleInstance();
+            //builder.Register(c => new VisualizeSettings()).AsImplementedInterfaces().SingleInstance();
             builder.Register(c => new ArchimedeanSpiralPlacerDefaultSettings()).AsImplementedInterfaces().SingleInstance();
 
             builder.RegisterType<WordScaler>().As<IWordScaler>();
@@ -42,8 +54,7 @@ namespace TagsCloudVisualisation
             builder.RegisterType<CloudGenerator>().As<ICloudGenerator>().SingleInstance();
             builder.RegisterType<CloudProvider>().As<ICloudProvider>().SingleInstance();
 
-            builder.Register(c => c.Resolve<ICloudGenerator>().GenerateCloud())
-                .As<Cloud>();
+            builder.Register(c => c.Resolve<ICloudGenerator>().GenerateCloud()).As<Cloud>();
 
             return builder.Build();
         }

@@ -14,7 +14,7 @@ namespace TagsCloudVisualisation
 
         public Rectangle PutNextRectangle(Size rectangleSize)
         {
-            if (rectangleSize.Height*rectangleSize.Width == 0)
+            if (rectangleSize.Height * rectangleSize.Width == 0)
                 throw new ArgumentException("Сторона прямоугольника для текста не может быть равна 0");
 
             return pointPlacer.PlaceNextRectangle(rectangleSize);

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Text;
@@ -16,7 +15,6 @@ namespace TagsCloudVisualisation
         {
             this.settings = settings;
             bitmap = new Bitmap(settings.BitmapWidth, settings.BitmapHeight);
-
             graphics = Graphics.FromImage(bitmap);
             graphics.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
             graphics.SmoothingMode = SmoothingMode.AntiAlias;
@@ -26,13 +24,14 @@ namespace TagsCloudVisualisation
 
         public void Visualize(Cloud cloud, string visualisationName)
         {
+            var font = new Font(settings.FontFamilyName, settings.FontEmSize, FontStyle.Regular, GraphicsUnit.Pixel);
             foreach (var printInfo in cloud.WordPrintInfos)
             {
                 if (settings.DrawWordRectangle)
-                    graphics.DrawRectangle(settings.Pen, printInfo.WordRectangle);
+                    graphics.DrawRectangle(new Pen(Color.Black), printInfo.WordRectangle);
 
-                var currentWordFont = new Font(settings.Font.FontFamily, (float) printInfo.ScaleInfo.ScaleFontSize);
-                graphics.DrawString(printInfo.Word, currentWordFont, new SolidBrush(settings.GetWordColor),
+                var currentWordFont = new Font(font.FontFamily, (float) printInfo.ScaleInfo.ScaleFontSize);
+                graphics.DrawString(printInfo.Word, currentWordFont, new SolidBrush(settings.WordColor),
                     printInfo.WordRectangle, settings.StringFormat);
             }
             graphics.Save();

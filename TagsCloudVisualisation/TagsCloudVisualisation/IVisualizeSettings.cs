@@ -8,9 +8,9 @@ namespace TagsCloudVisualisation
         int BitmapHeight { get; }
         string FileExtension { get; }
         bool DrawWordRectangle { get; }
-        Font Font { get; }
-        Pen Pen { get; }
-        Color GetWordColor { get; }
+        string FontFamilyName { get; }
+        float FontEmSize { get; }
+        Color WordColor { get; }
         StringFormat StringFormat { get; }
     }
 }

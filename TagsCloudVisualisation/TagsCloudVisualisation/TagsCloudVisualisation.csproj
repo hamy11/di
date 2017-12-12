@@ -71,17 +71,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppSettings.cs" />
     <Compile Include="ArchimedianSpiralPlacer\ArchimedeanSpiralPlacer.cs" />
     <Compile Include="ArchimedianSpiralPlacer\ArchimedeanSpiralPlacerDefaultSettings.cs" />
     <Compile Include="ArchimedianSpiralPlacer\IArchimedeanSpiralPlacerSettings.cs" />
     <Compile Include="ArchimedianSpiralPlacer\RectangleExtension.cs" />
     <Compile Include="CloudProvider.cs" />
-    <Compile Include="FileReaders\IFileInfo.cs" />
+    <Compile Include="Common\FileBlobStorage.cs" />
+    <Compile Include="FileReaders\IReadFileSettings.cs" />
+    <Compile Include="Common\IBlobStorage.cs" />
     <Compile Include="ICloudGenerator.cs" />
     <Compile Include="ICloudProvider.cs" />
     <Compile Include="ICloudVisualizer.cs" />
+    <Compile Include="Common\IObjectSerializer.cs" />
     <Compile Include="IWordContainer.cs" />
     <Compile Include="IWordScaler.cs" />
+    <Compile Include="SettingsManager.cs" />
     <Compile Include="Tests\ArchimedianSpiralPlacerShould.cs" />
     <Compile Include="WordProcessors\BoringWordRemover.cs" />
     <Compile Include="CircularCloudLayouter.cs" />
@@ -90,7 +95,7 @@
     <Compile Include="CloudGenerator.cs" />
     <Compile Include="CloudVisualizer.cs" />
     <Compile Include="FileReaders\ConsoleReader.cs" />
-    <Compile Include="FileReaders\FileInfo.cs" />
+    <Compile Include="FileReaders\DefaultReadFileSettings.cs" />
     <Compile Include="ICloudLayouter.cs" />
     <Compile Include="IPointPlacer.cs" />
     <Compile Include="FileReaders\IReader.cs" />
@@ -107,6 +112,7 @@
     <Compile Include="WordPrintInfo.cs" />
     <Compile Include="WordScaleInfo.cs" />
     <Compile Include="WordScaler.cs" />
+    <Compile Include="Common\XmlObjectSerializer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

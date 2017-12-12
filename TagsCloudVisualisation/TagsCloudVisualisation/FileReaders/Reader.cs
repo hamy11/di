@@ -4,11 +4,11 @@ namespace TagsCloudVisualisation.FileReaders
 {
     public abstract class Reader : IReader
     {
-        protected IFileInfo FileInfo;
+        protected IReadFileSettings ReadFileSettings;
 
-        protected Reader(IFileInfo fileInfo)
+        protected Reader(IReadFileSettings readFileSettings)
         {
-            FileInfo = fileInfo;
+            ReadFileSettings = readFileSettings;
         }
 
         public abstract IEnumerable<WordData> GetWords();

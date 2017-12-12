@@ -1,6 +1,6 @@
 namespace TagsCloudVisualisation.FileReaders
 {
-    public interface IFileInfo
+    public interface IReadFileSettings
     {
         string FileName { get; }
         FileFormat FileFormat { get; }
