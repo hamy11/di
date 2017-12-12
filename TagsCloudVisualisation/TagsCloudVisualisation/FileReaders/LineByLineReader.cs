@@ -6,7 +6,7 @@ namespace TagsCloudVisualisation.FileReaders
 {
     public class LineByLineReader : Reader
     {
-        public LineByLineReader(FileInfo fileInfo) : base(fileInfo)
+        public LineByLineReader(IFileInfo fileInfo) : base(fileInfo)
         {
         }
 

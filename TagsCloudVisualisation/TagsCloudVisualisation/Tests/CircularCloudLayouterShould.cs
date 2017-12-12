@@ -33,7 +33,7 @@ namespace TagsCloudVisualisation.Tests
         public void CloudLayouter_CallsPlaceNextRectangleMethodOnce_WhenCallPutNextRectangle()
         {
             var mock = new Mock<IPointPlacer>();
-            var circularCloudLayouter = new CircularCloudLayouter(center, mock.Object);
+            var circularCloudLayouter = new CircularCloudLayouter(mock.Object);
             circularCloudLayouter.PutNextRectangle(new Size(1, 1));
             mock.Verify(pointPlacer => pointPlacer.PlaceNextRectangle(new Size(1, 1)), Times.Once);
         }

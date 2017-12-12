@@ -6,11 +6,9 @@ namespace TagsCloudVisualisation
     public class CircularCloudLayouter : ICloudLayouter
     {
         private readonly IPointPlacer pointPlacer;
-        public Point Center;
 
-        public CircularCloudLayouter(Point center, IPointPlacer pointPlacer)
+        public CircularCloudLayouter(IPointPlacer pointPlacer)
         {
-            Center = center;
             this.pointPlacer = pointPlacer;
         }
 

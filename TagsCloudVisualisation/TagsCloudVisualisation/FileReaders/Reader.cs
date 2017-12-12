@@ -4,9 +4,9 @@ namespace TagsCloudVisualisation.FileReaders
 {
     public abstract class Reader : IReader
     {
-        protected FileInfo FileInfo;
+        protected IFileInfo FileInfo;
 
-        protected Reader(FileInfo fileInfo)
+        protected Reader(IFileInfo fileInfo)
         {
             FileInfo = fileInfo;
         }

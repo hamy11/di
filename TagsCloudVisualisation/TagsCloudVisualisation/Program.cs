@@ -22,7 +22,7 @@ namespace TagsCloudVisualisation
 
             var container = GetContainer();
             var cloud = container.Resolve<Cloud>();
-            var visualizer = container.Resolve<CloudVisualizer>();
+            var visualizer = container.Resolve<ICloudVisualizer>();
             visualizer.Visualize(cloud, "WordCloud");
         }
 
@@ -48,7 +48,6 @@ namespace TagsCloudVisualisation
                 .As<Cloud>();
 
             return builder.Build();
-            
         }
     }
 }
