@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using FluentAssertions;
+using Moq;
 using NUnit.Framework;
 using NUnit.Framework.Interfaces;
 using TagsCloudVisualisation.ArchimedianSpiralPlacer;
@@ -75,6 +77,42 @@ namespace TagsCloudVisualisation.Tests
                     .Any(x => x.IntersectsWith(rectangle))
                     .Should().BeFalse();
             }
+        }
+
+        [Test]
+        public void GenerateCloud_ShouldReturnFivePrintDataObjects_WhenWordsCountIsFive()
+        {
+            TestReader.WordsCount = 5;
+            var list = new TestReader().GetWords();
+            var mockContainer = new Mock<IWordContainer>();
+            mockContainer.Setup(x => x.GetProcessedWords()).Returns(list);
+            var mockLayouter = new Mock<ICloudLayouter>();
+            var mockScaler = new Mock<IWordScaler>();
+            mockScaler.Setup(x => x.GetWordScaleInfo(It.IsAny<WordData>()))
+                .Returns(new WordScaleInfo(new Size(5, 5), 5));
+            
+            var cloudGenerator = new CloudGenerator(mockContainer.Object,mockLayouter.Object,mockScaler.Object);
+
+            cloudGenerator.GenerateCloud().WordPrintInfos.Count().Should().Be(5);
+        }
+
+        [Test]
+        public void NumberOfWordProcessingFunctionsCallsIsEqualToNumberOfWords_AfterCloudgeneration()
+        {
+            TestReader.WordsCount = 3;
+            var list = new TestReader().GetWords();
+            var mockContainer = new Mock<IWordContainer>();
+            mockContainer.Setup(x => x.GetProcessedWords()).Returns(list);
+            var mockLayouter = new Mock<ICloudLayouter>();
+            mockLayouter.Setup(x => x.PutNextRectangle(It.IsAny<Size>())).Returns(new Rectangle(0, 0, 0, 0));
+            var mockScaler = new Mock<IWordScaler>();
+            mockScaler.Setup(x => x.GetWordScaleInfo(It.IsAny<WordData>()))
+                .Returns(new WordScaleInfo(new Size(5, 5), 5));
+
+            var cloudGenerator = new CloudGenerator(mockContainer.Object, mockLayouter.Object, mockScaler.Object);
+            cloudGenerator.GenerateCloud();
+            mockLayouter.Verify(x=>x.PutNextRectangle(It.IsAny<Size>()), Times.Exactly(3));
+            mockScaler.Verify(x => x.GetWordScaleInfo(It.IsAny<WordData>()), Times.Exactly(3));
         }
     }
 }
