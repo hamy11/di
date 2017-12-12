@@ -75,8 +75,10 @@
     <Compile Include="ArchimedianSpiralPlacer\ArchimedeanSpiralPlacerDefaultSettings.cs" />
     <Compile Include="ArchimedianSpiralPlacer\IArchimedeanSpiralPlacerSettings.cs" />
     <Compile Include="ArchimedianSpiralPlacer\RectangleExtension.cs" />
+    <Compile Include="FileReaders\IFileInfo.cs" />
     <Compile Include="ICloudGenerator.cs" />
     <Compile Include="ICloudVisualizer.cs" />
+    <Compile Include="IWordScaler.cs" />
     <Compile Include="Tests\ArchimedianSpiralPlacerShould.cs" />
     <Compile Include="WordProcessors\BoringWordRemover.cs" />
     <Compile Include="CircularCloudLayouter.cs" />
@@ -101,6 +103,7 @@
     <Compile Include="WordProcessors\WordLowerCaser.cs" />
     <Compile Include="WordPrintInfo.cs" />
     <Compile Include="WordScaleInfo.cs" />
+    <Compile Include="WordScaler.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

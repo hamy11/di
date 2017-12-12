@@ -29,13 +29,11 @@ namespace TagsCloudVisualisation
         private static IContainer GetContainer()
         {
             var builder = new ContainerBuilder();
-            builder.Register(c => new FileInfo("in.txt", FileFormat.None)).As<FileInfo>().SingleInstance();
-            builder.Register(c => new VisualizeSettings()).As<IVisualizeSettings>().SingleInstance();
-            builder.Register(c => new ArchimedeanSpiralPlacerDefaultSettings()).As<IArchimedeanSpiralPlacerSettings>()
-                .SingleInstance();
-            builder.Register(c => c.Resolve<CloudGenerator>().GenerateCloud())
-                .As<Cloud>();
+            builder.Register(c => new FileInfo("../../words.txt", FileFormat.None)).AsImplementedInterfaces().SingleInstance();
+            builder.Register(c => new VisualizeSettings()).AsImplementedInterfaces().SingleInstance();
+            builder.Register(c => new ArchimedeanSpiralPlacerDefaultSettings()).AsImplementedInterfaces().SingleInstance();
 
+            builder.RegisterType<WordScaler>().As<IWordScaler>();
             builder.RegisterType<BoringWordRemover>().As<IWordProcessor>();
             builder.RegisterType<WordLowerCaser>().As<IWordProcessor>();
 
@@ -45,6 +43,9 @@ namespace TagsCloudVisualisation
             builder.RegisterType<CircularCloudLayouter>().As<ICloudLayouter>().SingleInstance();
             builder.RegisterType<CloudVisualizer>().As<ICloudVisualizer>().SingleInstance();
             builder.RegisterType<CloudGenerator>().As<ICloudGenerator>().SingleInstance();
+
+            builder.Register(c => c.Resolve<ICloudGenerator>().GenerateCloud())
+                .As<Cloud>();
 
             return builder.Build();
             
