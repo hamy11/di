@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using TagsCloudVisualisation.Settings;
 
 namespace TagsCloudVisualisation
 {
@@ -17,7 +18,7 @@ namespace TagsCloudVisualisation
 
         public WordScaleInfo GetWordScaleInfo(WordData word)
         {
-            var font = new Font(settings.FontFamilyName, settings.FontEmSize);
+            var font = new Font(settings.FontFamilyName, settings.FontEmSize, FontStyle.Regular, GraphicsUnit.Pixel);
             var realSize = graphics.MeasureString(word.Word, font);
             var sizeMultiplier = 0.1 + word.WordCount / 10.0;
             const double marging = 0.75;

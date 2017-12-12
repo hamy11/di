@@ -6,6 +6,7 @@ using FluentAssertions;
 using NUnit.Framework;
 using NUnit.Framework.Interfaces;
 using TagsCloudVisualisation.ArchimedianSpiralPlacer;
+using TagsCloudVisualisation.Settings;
 
 namespace TagsCloudVisualisation.Tests
 {
@@ -19,7 +20,7 @@ namespace TagsCloudVisualisation.Tests
         [SetUp]
         public void SetUp()
         {
-            rnd = new Random();
+            rnd = new Random(10);
             center = new ArchimedeanSpiralPlacerDefaultSettings().Center;
         }
 

@@ -8,6 +8,7 @@ using NUnit.Framework;
 using NUnit.Framework.Interfaces;
 using TagsCloudVisualisation.ArchimedianSpiralPlacer;
 using TagsCloudVisualisation.FileReaders;
+using TagsCloudVisualisation.Settings;
 
 namespace TagsCloudVisualisation.Tests
 {

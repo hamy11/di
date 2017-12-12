@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using TagsCloudVisualisation.Settings;
 
 namespace TagsCloudVisualisation.FileReaders
 {

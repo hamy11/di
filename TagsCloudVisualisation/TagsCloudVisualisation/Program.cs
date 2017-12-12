@@ -8,6 +8,7 @@ using Autofac;
 using TagsCloudVisualisation.ArchimedianSpiralPlacer;
 using TagsCloudVisualisation.Common;
 using TagsCloudVisualisation.FileReaders;
+using TagsCloudVisualisation.Settings;
 using TagsCloudVisualisation.WordProcessors;
 
 #endregion
@@ -18,33 +19,25 @@ namespace TagsCloudVisualisation
     {
         private static void Main(string[] args)
         {
-            //var a = new SettingsManager(new XmlObjectSerializer(), new FileBlobStorage());
-            
-            //a.Save(SettingsManager.CreateDefaultSettings());
-
-            var container = GetContainer();
-            var provider = container.Resolve<ICloudProvider>();
-            provider.ProvideCloud("Cloud of lorem ipsum");
+            var client = new ConsoleClient(GetDefaultContainer());
+            client.Run();
         }
-
-        private static IContainer GetContainer()
+        private static IContainer GetDefaultContainer()
         {
             var builder = new ContainerBuilder();
 
-            builder.RegisterType<XmlObjectSerializer>().As<IObjectSerializer>();
-            builder.RegisterType<FileBlobStorage>().As<IBlobStorage>();
-            builder.RegisterType<SettingsManager>().AsSelf();
+            builder.RegisterType<XmlObjectSerializer>().As<IObjectSerializer>().SingleInstance();
+            builder.RegisterType<FileBlobStorage>().As<IBlobStorage>().SingleInstance();
+            builder.RegisterType<SettingsManager>().AsSelf().SingleInstance();
             builder.Register(c => c.Resolve<SettingsManager>().Load()).As<AppSettings>().SingleInstance();
-            builder.Register(c => c.Resolve<AppSettings>().VisualizeSettings).As<IVisualizeSettings>();
-            builder.Register(c => c.Resolve<AppSettings>().ReadFileSettings).As<IReadFileSettings>();
+            builder.Register(c => c.Resolve<AppSettings>().VisualizeSettings).As<IVisualizeSettings>().SingleInstance();
+            builder.Register(c => c.Resolve<AppSettings>().ReadFileSettings).As<IReadFileSettings>().SingleInstance();
 
-            //builder.Register(c => new DefaultReadFileSettings("../../words.txt", FileFormat.None)).AsImplementedInterfaces().SingleInstance();
-            //builder.Register(c => new VisualizeSettings()).AsImplementedInterfaces().SingleInstance();
             builder.Register(c => new ArchimedeanSpiralPlacerDefaultSettings()).AsImplementedInterfaces().SingleInstance();
 
-            builder.RegisterType<WordScaler>().As<IWordScaler>();
-            builder.RegisterType<BoringWordRemover>().As<IWordProcessor>();
-            builder.RegisterType<WordLowerCaser>().As<IWordProcessor>();
+            builder.RegisterType<WordScaler>().As<IWordScaler>().SingleInstance();
+            builder.RegisterType<BoringWordRemover>().As<IWordProcessor>().SingleInstance();
+            builder.RegisterType<WordLowerCaser>().As<IWordProcessor>().SingleInstance();
 
             builder.RegisterType<LineByLineReader>().As<IReader>().SingleInstance();
             builder.RegisterType<WordContainer>().As<IWordContainer>().SingleInstance();

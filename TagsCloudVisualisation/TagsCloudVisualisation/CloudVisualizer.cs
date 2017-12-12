@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Text;
+using TagsCloudVisualisation.Settings;
 
 namespace TagsCloudVisualisation
 {

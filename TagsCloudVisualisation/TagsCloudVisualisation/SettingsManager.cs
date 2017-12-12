@@ -1,6 +1,7 @@
 ﻿using System;
 using TagsCloudVisualisation.Common;
 using TagsCloudVisualisation.FileReaders;
+using TagsCloudVisualisation.Settings;
 
 namespace TagsCloudVisualisation
 {
@@ -37,7 +38,7 @@ namespace TagsCloudVisualisation
         {
             return new AppSettings
             {
-                ReadFileSettings = new DefaultReadFileSettings(),
+                ReadFileSettings = new ReadFileSettings(),
                 VisualizeSettings = new VisualizeSettings()
             };
         }

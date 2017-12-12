@@ -71,15 +71,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AppSettings.cs" />
+    <Compile Include="Settings\AppSettings.cs" />
     <Compile Include="ArchimedianSpiralPlacer\ArchimedeanSpiralPlacer.cs" />
     <Compile Include="ArchimedianSpiralPlacer\ArchimedeanSpiralPlacerDefaultSettings.cs" />
     <Compile Include="ArchimedianSpiralPlacer\IArchimedeanSpiralPlacerSettings.cs" />
     <Compile Include="ArchimedianSpiralPlacer\RectangleExtension.cs" />
     <Compile Include="CloudProvider.cs" />
     <Compile Include="Common\FileBlobStorage.cs" />
-    <Compile Include="FileReaders\IReadFileSettings.cs" />
+    <Compile Include="ConsoleClient.cs" />
+    <Compile Include="Settings\IReadFileSettings.cs" />
     <Compile Include="Common\IBlobStorage.cs" />
+    <Compile Include="IClient.cs" />
     <Compile Include="ICloudGenerator.cs" />
     <Compile Include="ICloudProvider.cs" />
     <Compile Include="ICloudVisualizer.cs" />
@@ -96,17 +98,17 @@
     <Compile Include="CloudGenerator.cs" />
     <Compile Include="CloudVisualizer.cs" />
     <Compile Include="FileReaders\ConsoleReader.cs" />
-    <Compile Include="FileReaders\DefaultReadFileSettings.cs" />
+    <Compile Include="Settings\ReadFileSettings.cs" />
     <Compile Include="ICloudLayouter.cs" />
     <Compile Include="IPointPlacer.cs" />
     <Compile Include="FileReaders\IReader.cs" />
     <Compile Include="FileReaders\LineByLineReader.cs" />
-    <Compile Include="IVisualizeSettings.cs" />
+    <Compile Include="Settings\IVisualizeSettings.cs" />
     <Compile Include="IWordProcessor.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FileReaders\Reader.cs" />
-    <Compile Include="VisualizeSettings.cs" />
+    <Compile Include="Settings\VisualizeSettings.cs" />
     <Compile Include="WordContainer.cs" />
     <Compile Include="WordData.cs" />
     <Compile Include="WordProcessors\WordLowerCaser.cs" />
