@@ -80,6 +80,7 @@
     <Compile Include="ICloudGenerator.cs" />
     <Compile Include="ICloudProvider.cs" />
     <Compile Include="ICloudVisualizer.cs" />
+    <Compile Include="IWordContainer.cs" />
     <Compile Include="IWordScaler.cs" />
     <Compile Include="Tests\ArchimedianSpiralPlacerShould.cs" />
     <Compile Include="WordProcessors\BoringWordRemover.cs" />

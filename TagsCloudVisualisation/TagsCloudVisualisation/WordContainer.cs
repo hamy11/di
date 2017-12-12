@@ -4,7 +4,7 @@ using TagsCloudVisualisation.FileReaders;
 
 namespace TagsCloudVisualisation
 {
-    public class WordContainer
+    public class WordContainer : IWordContainer
     {
         private readonly IEnumerable<IWordProcessor> processors;
         private readonly IEnumerable<WordData> wordDatas;

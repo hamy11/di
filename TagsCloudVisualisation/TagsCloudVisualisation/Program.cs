@@ -35,12 +35,12 @@ namespace TagsCloudVisualisation
             builder.RegisterType<WordLowerCaser>().As<IWordProcessor>();
 
             builder.RegisterType<LineByLineReader>().As<IReader>().SingleInstance();
-            builder.RegisterType<WordContainer>().AsSelf().SingleInstance();
+            builder.RegisterType<WordContainer>().As<IWordContainer>().SingleInstance();
             builder.RegisterType<ArchimedeanSpiralPlacer>().As<IPointPlacer>().SingleInstance();
             builder.RegisterType<CircularCloudLayouter>().As<ICloudLayouter>().SingleInstance();
             builder.RegisterType<CloudVisualizer>().As<ICloudVisualizer>().SingleInstance();
             builder.RegisterType<CloudGenerator>().As<ICloudGenerator>().SingleInstance();
-            builder.RegisterType<CloudProvider>().As<ICloudProvider>();
+            builder.RegisterType<CloudProvider>().As<ICloudProvider>().SingleInstance();
 
             builder.Register(c => c.Resolve<ICloudGenerator>().GenerateCloud())
                 .As<Cloud>();

@@ -4,11 +4,11 @@ namespace TagsCloudVisualisation
 {
     public class CloudGenerator:ICloudGenerator
     {
-        private readonly WordContainer container;
+        private readonly IWordContainer container;
         private readonly ICloudLayouter layouter;
         private readonly IWordScaler wordScaler;
 
-        public CloudGenerator(WordContainer container, ICloudLayouter layouter, IWordScaler wordScaler)
+        public CloudGenerator(IWordContainer container, ICloudLayouter layouter, IWordScaler wordScaler)
         {
             this.container = container;
             this.layouter = layouter;
