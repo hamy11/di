@@ -39,7 +39,8 @@ namespace TagsCloudVisualisation.Tests
             var placer = new ArchimedeanSpiralPlacer(new ArchimedeanSpiralPlacerDefaultSettings());
             var firstRectangle = placer.PlaceNextRectangle(new Size(10, 10));
             var secondRectangle = placer.PlaceNextRectangle(new Size(10, 10));
-            var printData = new List<Rectangle> {firstRectangle, secondRectangle}.Select(x => new WordPrintInfo("", x, 10));
+            var scaleInfo = new WordScaleInfo(new Size(), 10);
+            var printData = new List<Rectangle> {firstRectangle, secondRectangle}.Select(x => new WordPrintInfo("", x, scaleInfo));
             cloud = new Cloud(printData);
             firstRectangle.IntersectsWith(secondRectangle).Should().BeFalse();
         }
@@ -59,7 +60,8 @@ namespace TagsCloudVisualisation.Tests
                 var rectangle = placer.PlaceNextRectangle(size);
                 rectangles.Add(rectangle);
             }
-            cloud = new Cloud(rectangles.Select(x => new WordPrintInfo("", x, 0)));
+            var scaleInfo = new WordScaleInfo(new Size(), 10);
+            cloud = new Cloud(rectangles.Select(x => new WordPrintInfo("", x, scaleInfo)));
             for (var i = 0; i < count; i++)
                 for (var j = i + 1; j < count; j++)
                 {
@@ -77,10 +79,12 @@ namespace TagsCloudVisualisation.Tests
             var placer = new ArchimedeanSpiralPlacer(new ArchimedeanSpiralPlacerDefaultSettings());
             var size = new Size(width, height);
             var datas = new List<WordPrintInfo>();
+            var scaleInfo = new WordScaleInfo(new Size(), 10);
             for (var i = 0; i < count; i++)
             {
                 var rectangle = placer.PlaceNextRectangle(size);
-                datas.Add(new WordPrintInfo("", rectangle, 0));
+                
+                datas.Add(new WordPrintInfo("", rectangle, scaleInfo));
             }
 
             var summaryRectanglesSquare = count*size.Width*size.Height;

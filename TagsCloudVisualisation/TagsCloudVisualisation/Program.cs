@@ -18,12 +18,9 @@ namespace TagsCloudVisualisation
     {
         private static void Main(string[] args)
         {
-            var a = File.ReadAllLines("../../words.txt");
-
             var container = GetContainer();
-            var cloud = container.Resolve<Cloud>();
-            var visualizer = container.Resolve<ICloudVisualizer>();
-            visualizer.Visualize(cloud, "WordCloud");
+            var provider = container.Resolve<ICloudProvider>();
+            provider.ProvideCloud("Cloud of lorem ipsum");
         }
 
         private static IContainer GetContainer()
@@ -43,6 +40,7 @@ namespace TagsCloudVisualisation
             builder.RegisterType<CircularCloudLayouter>().As<ICloudLayouter>().SingleInstance();
             builder.RegisterType<CloudVisualizer>().As<ICloudVisualizer>().SingleInstance();
             builder.RegisterType<CloudGenerator>().As<ICloudGenerator>().SingleInstance();
+            builder.RegisterType<CloudProvider>().As<ICloudProvider>();
 
             builder.Register(c => c.Resolve<ICloudGenerator>().GenerateCloud())
                 .As<Cloud>();

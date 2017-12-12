@@ -75,8 +75,10 @@
     <Compile Include="ArchimedianSpiralPlacer\ArchimedeanSpiralPlacerDefaultSettings.cs" />
     <Compile Include="ArchimedianSpiralPlacer\IArchimedeanSpiralPlacerSettings.cs" />
     <Compile Include="ArchimedianSpiralPlacer\RectangleExtension.cs" />
+    <Compile Include="CloudProvider.cs" />
     <Compile Include="FileReaders\IFileInfo.cs" />
     <Compile Include="ICloudGenerator.cs" />
+    <Compile Include="ICloudProvider.cs" />
     <Compile Include="ICloudVisualizer.cs" />
     <Compile Include="IWordScaler.cs" />
     <Compile Include="Tests\ArchimedianSpiralPlacerShould.cs" />

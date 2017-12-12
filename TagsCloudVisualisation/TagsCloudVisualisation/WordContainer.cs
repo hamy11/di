@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using TagsCloudVisualisation.FileReaders;
 
 namespace TagsCloudVisualisation
@@ -16,11 +17,7 @@ namespace TagsCloudVisualisation
 
         public IEnumerable<WordData> GetProcessedWords()
         {
-            var processedData = wordDatas;
-            foreach (var processor in processors)
-                processedData = processor.ProcessWordData(processedData);
-            
-            return processedData;
+            return processors.Aggregate(wordDatas, (current, processor) => processor.ProcessWordData(current));
         }
     }
 }

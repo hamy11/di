@@ -7,13 +7,13 @@ namespace TagsCloudVisualisation
     {
         public readonly string Word;
         public readonly Rectangle WordRectangle;
-        public readonly double FontSize;
+        public readonly WordScaleInfo ScaleInfo;
 
-        public WordPrintInfo(string word, Rectangle wordRectangle, double fontSize)
+        public WordPrintInfo(string word, Rectangle wordRectangle, WordScaleInfo scaleInfo)
         {
             Word = word;
             WordRectangle = wordRectangle;
-            FontSize = fontSize;
+            ScaleInfo = scaleInfo;
         }
     }
 }

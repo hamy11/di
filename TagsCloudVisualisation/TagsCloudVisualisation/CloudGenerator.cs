@@ -22,7 +22,7 @@ namespace TagsCloudVisualisation
             {
                 var wordScaleInfo = wordScaler.GetWordScaleInfo(wordData);
                 var wordAsRectangle = layouter.PutNextRectangle(wordScaleInfo.WordRectangleSize);
-                printData.Add(new WordPrintInfo(wordData.Word, wordAsRectangle, wordScaleInfo.ScaleFontSize));
+                printData.Add(new WordPrintInfo(wordData.Word, wordAsRectangle, wordScaleInfo));
             }
             return new Cloud(printData);
         }

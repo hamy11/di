@@ -31,7 +31,7 @@ namespace TagsCloudVisualisation
                 if (settings.DrawWordRectangle)
                     graphics.DrawRectangle(settings.Pen, printInfo.WordRectangle);
 
-                var currentWordFont = new Font(settings.Font.FontFamily, (float) printInfo.FontSize);
+                var currentWordFont = new Font(settings.Font.FontFamily, (float) printInfo.ScaleInfo.ScaleFontSize);
                 graphics.DrawString(printInfo.Word, currentWordFont, new SolidBrush(settings.GetWordColor),
                     printInfo.WordRectangle, settings.StringFormat);
             }
