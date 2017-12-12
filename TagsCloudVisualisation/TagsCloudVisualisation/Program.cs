@@ -41,7 +41,7 @@ namespace TagsCloudVisualisation
             builder.RegisterType<ArchimedeanSpiralPlacer>().As<IPointPlacer>().SingleInstance();
             builder.RegisterType<CircularCloudLayouter>().As<ICloudLayouter>().SingleInstance();
             builder.RegisterType<CloudVisualizer>().AsSelf().SingleInstance();
-            builder.RegisterType<CloudGenerator>().AsSelf().SingleInstance();
+            builder.RegisterType<CloudGenerator>().As<ICloudGenerator>().SingleInstance();
 
             return builder.Build();
             

@@ -2,7 +2,7 @@
 
 namespace TagsCloudVisualisation
 {
-    public class CloudGenerator
+    public class CloudGenerator:ICloudGenerator
     {
         private readonly WordContainer container;
         private readonly ICloudLayouter layouter;

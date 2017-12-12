@@ -6,7 +6,7 @@ using System.Drawing.Text;
 
 namespace TagsCloudVisualisation
 {
-    public class CloudVisualizer
+    public class CloudVisualizer:ICloudVisualizer
     {
         private readonly IVisualizeSettings settings;
         public readonly Graphics Graphics;
