@@ -7,15 +7,13 @@ namespace TagsCloudVisualisation.ArchimedianSpiralPlacer
 {
     public class ArchimedeanSpiralPlacer : IPointPlacer
     {
-        private readonly Point center;
         private readonly IArchimedeanSpiralPlacerSettings settings;
         private readonly IEnumerable<Point> spiral;
         private readonly List<Rectangle> placedRectangles;
 
-        public ArchimedeanSpiralPlacer(Point center, IArchimedeanSpiralPlacerSettings settings)
+        public ArchimedeanSpiralPlacer(IArchimedeanSpiralPlacerSettings settings)
         {
             this.settings = settings;
-            this.center = center;
             placedRectangles = new List<Rectangle>();
             spiral = Enumerable.Range(0, Int32.MaxValue).Select(ArchimedeanPoint);
         }
@@ -24,7 +22,7 @@ namespace TagsCloudVisualisation.ArchimedianSpiralPlacer
         {
             var rectangle = spiral.Select(point => BuildRectangleOnCenterPoint(point, size))
                 .First(current => !placedRectangles.Any(other => other.IntersectsWith(current)))
-                .ApproachToCenter(center,placedRectangles);
+                .ApproachToCenter(settings.Center,placedRectangles);
 
             placedRectangles.Add(rectangle);
 
@@ -37,8 +35,8 @@ namespace TagsCloudVisualisation.ArchimedianSpiralPlacer
             var radius = settings.RadiusStep + settings.TurningDistance*theta;
             return new Point
             {
-                X = (int) (center.X + radius*Math.Cos(theta)),
-                Y = (int) (center.Y + radius*Math.Sin(theta))
+                X = (int) (settings.Center.X + radius*Math.Cos(theta)),
+                Y = (int) (settings.Center.Y + radius*Math.Sin(theta))
             };
         }
 

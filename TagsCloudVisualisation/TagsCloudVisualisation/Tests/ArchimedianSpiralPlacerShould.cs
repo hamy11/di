@@ -24,7 +24,7 @@ namespace TagsCloudVisualisation.Tests
         }
 
         [TearDown]
-        public void TestTearDown()
+        public void TearDown()
         {
             if (!TestContext.CurrentContext.Result.Outcome.Status.Equals(TestStatus.Failed)) return;
             var path = $"{TestContext.CurrentContext.TestDirectory}\\{TestContext.CurrentContext.Test.Name}";
@@ -36,7 +36,7 @@ namespace TagsCloudVisualisation.Tests
         [Test]
         public void PutNextRectangle_AfterPuttingTwoRectangles_RectanglesDoesNotIntersect()
         {
-            var placer = new ArchimedeanSpiralPlacer(center, new ArchimedeanSpiralPlacerDefaultSettings());
+            var placer = new ArchimedeanSpiralPlacer(new ArchimedeanSpiralPlacerDefaultSettings());
             var firstRectangle = placer.PlaceNextRectangle(new Size(10, 10));
             var secondRectangle = placer.PlaceNextRectangle(new Size(10, 10));
             var printData = new List<Rectangle> {firstRectangle, secondRectangle}.Select(x => new WordPrintInfo("", x, 10));
@@ -51,7 +51,7 @@ namespace TagsCloudVisualisation.Tests
         public void PutNextRectangle_AfterPuttingSeveralRectanglesWithRandomSize_RectanglesDoesNotIntersect(
             int count, int minSizeX, int maxSizeX, int minSizeY, int maxSizeY)
         {
-            var placer = new ArchimedeanSpiralPlacer(center, new ArchimedeanSpiralPlacerDefaultSettings());
+            var placer = new ArchimedeanSpiralPlacer(new ArchimedeanSpiralPlacerDefaultSettings());
             var rectangles = new List<Rectangle>();
             for (var i = 0; i < count; i++)
             {
@@ -74,7 +74,7 @@ namespace TagsCloudVisualisation.Tests
         public void PutNextRectangle_CircumscribedCircleSquare_MustBeLessOrEqualThanSummarySquare(
             int count, int width, int height)
         {
-            var placer = new ArchimedeanSpiralPlacer(center, new ArchimedeanSpiralPlacerDefaultSettings());
+            var placer = new ArchimedeanSpiralPlacer(new ArchimedeanSpiralPlacerDefaultSettings());
             var size = new Size(width, height);
             var datas = new List<WordPrintInfo>();
             for (var i = 0; i < count; i++)

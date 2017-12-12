@@ -72,10 +72,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ArchimedianSpiralPlacer\ArchimedeanSpiralPlacer.cs" />
-    <Compile Include="ArchimedianSpiralPlacer\ArchimedeanSpiralPlacerSettings.cs" />
+    <Compile Include="ArchimedianSpiralPlacer\ArchimedeanSpiralPlacerDefaultSettings.cs" />
     <Compile Include="ArchimedianSpiralPlacer\IArchimedeanSpiralPlacerSettings.cs" />
     <Compile Include="ArchimedianSpiralPlacer\RectangleExtension.cs" />
     <Compile Include="ICloudGenerator.cs" />
+    <Compile Include="ICloudVisualizer.cs" />
     <Compile Include="Tests\ArchimedianSpiralPlacerShould.cs" />
     <Compile Include="WordProcessors\BoringWordRemover.cs" />
     <Compile Include="CircularCloudLayouter.cs" />
