@@ -1,17 +1,10 @@
-﻿#region
-
-using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
-using System.Reflection;
-using Autofac;
+﻿using Autofac;
 using TagsCloudVisualisation.ArchimedianSpiralPlacer;
 using TagsCloudVisualisation.Common;
 using TagsCloudVisualisation.FileReaders;
 using TagsCloudVisualisation.Settings;
 using TagsCloudVisualisation.WordProcessors;
 
-#endregion
 
 namespace TagsCloudVisualisation
 {
