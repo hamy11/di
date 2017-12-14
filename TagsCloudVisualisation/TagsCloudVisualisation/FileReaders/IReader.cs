@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 
-namespace TagsCloudVisualisation
+namespace TagsCloudVisualisation.FileReaders
 {
     public interface IReader
     {
         IEnumerable<WordData> GetWords();
     }
-    public enum FileFormats
+    public enum FileFormat
     {
         None = 0,
         Doc = 1,

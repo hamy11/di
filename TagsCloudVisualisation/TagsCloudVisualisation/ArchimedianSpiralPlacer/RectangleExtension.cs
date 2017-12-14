@@ -1,54 +1,10 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using static System.Int32;
 
-namespace TagsCloudVisualisation
+namespace TagsCloudVisualisation.ArchimedianSpiralPlacer
 {
-    public class ArchimedeanSpiralPlacer : IPointPlacer
-    {
-        private Point center;
-        private readonly IEnumerable<Point> spiral;
-        private readonly List<Rectangle> placedRectangles;
-
-        public ArchimedeanSpiralPlacer(Point center)
-        {
-            this.center = center;
-            this.placedRectangles = new List<Rectangle>();
-            spiral = Enumerable.Range(0, MaxValue).Select(ArchimedeanPoint);
-        }
-
-        public Rectangle PlaceNextRectangle(Size size)
-        {
-            var rectangle = spiral.Select(point => BuildRectangleOnCenterPoint(point, size))
-                .First(current => !placedRectangles.Any(other => other.IntersectsWith(current)))
-                .ApproachToCenter(center,placedRectangles);
-
-            placedRectangles.Add(rectangle);
-
-            return rectangle;
-        }
-
-        private Point ArchimedeanPoint(int degrees)
-        {
-            const double turningDistance = 0.5;
-            var theta = degrees*Math.PI/180;
-            var radius = turningDistance*theta;
-            return new Point
-            {
-                X = (int) (center.X + radius*Math.Cos(theta)),
-                Y = (int) (center.Y + radius*Math.Sin(theta))
-            };
-        }
-
-        private static Rectangle BuildRectangleOnCenterPoint(Point point, Size size)
-        {
-            var centralizedRectangle = new Rectangle(new Point(point.X - size.Width/2, point.Y - size.Height/2), size);
-            return centralizedRectangle;
-        }
-    }
-
     public static class RectangleExtension
     {
         public static Rectangle ApproachToCenter(this Rectangle rectangle, Point center,

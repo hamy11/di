@@ -1,5 +1,14 @@
-# Результаты генерации облаков
+﻿# Результаты генерации облаков
 
-![TagCloud](https://)
-![TagCloud](https://)
-![TagCloud](https://)
+Облако слов:
+![TagCloud](https://i.imgur.com/hL0Mg0T.png)
+
+Облако слов без ограничений по "скучности":
+![TagCloud](https://i.imgur.com/5LgWJgD.png)
+
+Облако прямоугольников:
+![TagCloud](https://i.imgur.com/al8St4Q.png)
+
+
+
+

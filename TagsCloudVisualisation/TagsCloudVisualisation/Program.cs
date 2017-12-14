@@ -1,9 +1,10 @@
-﻿#region
+﻿using Autofac;
+using TagsCloudVisualisation.ArchimedianSpiralPlacer;
+using TagsCloudVisualisation.Common;
+using TagsCloudVisualisation.FileReaders;
+using TagsCloudVisualisation.Settings;
+using TagsCloudVisualisation.WordProcessors;
 
-using System.Drawing;
-using Autofac;
-
-#endregion
 
 namespace TagsCloudVisualisation
 {
@@ -11,33 +12,36 @@ namespace TagsCloudVisualisation
     {
         private static void Main(string[] args)
         {
+            var container = GetDefaultContainer();
+            var client = container.Resolve<IClient>();
+            client.Run();
+        }
+        private static IContainer GetDefaultContainer()
+        {
             var builder = new ContainerBuilder();
-            /*builder.RegisterType<AuthorRepositoryCtro>().As<IAuthorRepository>();
-            builder.RegisterType<BookRepositoryCtro>().As<IBookRepository>();
-            builder.RegisterType<ConsoleLog>().As<ILog>();*/
 
-            var container = builder.Build();
+            builder.RegisterType<JsonObjectSerializer>().As<IObjectSerializer>().SingleInstance();
+            builder.RegisterType<FileBlobStorage>().As<IBlobStorage>().SingleInstance();
+            builder.RegisterType<SettingsManager>().AsSelf().SingleInstance();
+            builder.Register(c => c.Resolve<SettingsManager>().Load()).As<AppSettings>().SingleInstance();
+            builder.Register(c => c.Resolve<AppSettings>().VisualizeSettings).As<IVisualizeSettings>().SingleInstance();
+            builder.Register(c => c.Resolve<AppSettings>().ReadFileSettings).As<IReadFileSettings>().SingleInstance();
 
-            var center = new Point(500, 500);
-            var fileFormat = FileFormats.None;
-            var fileName = "in.txt";
-            var reader = new LineByLineReader(fileName, fileFormat);
-            var wordContainer = new WordContainer(reader);
-            var pointPlacer = new ArchimedeanSpiralPlacer(center);
-            var circularCloudLayouter = new CircularCloudLayouter(center, pointPlacer);
-            var cloudGenerator = new CloudGenerator(center, wordContainer, circularCloudLayouter);
-            var cloud = cloudGenerator.GenerateCloud();
-            CloudVisualizer.Visualize(cloud, "test");
+            builder.Register(c => new ArchimedeanSpiralPlacerDefaultSettings()).AsImplementedInterfaces().SingleInstance();
 
+            builder.RegisterType<WordScaler>().As<IWordScaler>().SingleInstance();
 
-            //CloudVisualizer.Visualize(smallCloud, "smallCloud");
-
-
-            /*var massiveCloud = CloudGenerator.GenerateCloud(center, 500, () => new Size(rnd.Next(10, 40), rnd.Next(5, 30)));
-            CloudVisualizer.Visualize(massiveCloud, "massiveCloud");*/
-
-            /*var bigDispersionCloud = CloudGenerator.GenerateCloud(center, 20, () => new Size(rnd.Next(5, 300), rnd.Next(5, 200)));
-            CloudVisualizer.Visualize(bigDispersionCloud, "bigDispersionCloud");*/
+            builder.RegisterType<BoringWordRemover>().As<IWordProcessor>().SingleInstance();
+            builder.RegisterType<WordLowerCaser>().As<IWordProcessor>().SingleInstance();
+            builder.RegisterType<LineByLineReader>().As<IReader>().SingleInstance();
+            builder.RegisterType<WordContainer>().As<IWordContainer>().SingleInstance();
+            builder.RegisterType<ArchimedeanSpiralPlacer>().As<IPointPlacer>().SingleInstance();
+            builder.RegisterType<CircularCloudLayouter>().As<ICloudLayouter>().SingleInstance();
+            builder.RegisterType<CloudVisualizer>().As<ICloudVisualizer>().SingleInstance();
+            builder.RegisterType<CloudGenerator>().As<ICloudGenerator>().SingleInstance();
+            builder.RegisterType<ConsoleClient>().AsImplementedInterfaces().SingleInstance();
+            
+            return builder.Build();
         }
     }
 }
