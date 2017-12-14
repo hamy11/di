@@ -81,7 +81,7 @@ namespace TagsCloudVisualisation.Tests
         }
 
         [Test]
-        public void GenerateCloud_ShouldReturnFivePrintDataObjects_WhenWordsCountIsFive()
+        public void ShouldReturnFivePrintDataObjects_WhenWordsCountIsFive()
         {
             TestReader.WordsCount = 5;
             var list = new TestReader().GetWords();
@@ -98,7 +98,7 @@ namespace TagsCloudVisualisation.Tests
         }
 
         [Test]
-        public void NumberOfWordProcessingFunctionsCallsIsEqualToNumberOfWords_AfterCloudgeneration()
+        public void CallLayouterAndScaler_ExactlyTimes()
         {
             TestReader.WordsCount = 3;
             var list = new TestReader().GetWords();
