@@ -12,6 +12,7 @@ namespace TagsCloudVisualisation
     {
         private static void Main(string[] args)
         {
+            //TODO fp
             var container = GetDefaultContainer();
             var client = container.Resolve<IClient>();
             client.Run();
