@@ -71,12 +71,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\JsonObjectSerializer.cs" />
     <Compile Include="Settings\AppSettings.cs" />
     <Compile Include="ArchimedianSpiralPlacer\ArchimedeanSpiralPlacer.cs" />
     <Compile Include="ArchimedianSpiralPlacer\ArchimedeanSpiralPlacerDefaultSettings.cs" />
     <Compile Include="ArchimedianSpiralPlacer\IArchimedeanSpiralPlacerSettings.cs" />
     <Compile Include="ArchimedianSpiralPlacer\RectangleExtension.cs" />
-    <Compile Include="CloudProvider.cs" />
     <Compile Include="Common\FileBlobStorage.cs" />
     <Compile Include="ConsoleClient.cs" />
     <Compile Include="Settings\IReadFileSettings.cs" />

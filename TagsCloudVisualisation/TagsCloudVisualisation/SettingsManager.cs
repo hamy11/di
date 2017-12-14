@@ -1,6 +1,5 @@
 ﻿using System;
 using TagsCloudVisualisation.Common;
-using TagsCloudVisualisation.FileReaders;
 using TagsCloudVisualisation.Settings;
 
 namespace TagsCloudVisualisation

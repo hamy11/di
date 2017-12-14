@@ -1,20 +1,20 @@
-﻿using Autofac;
-
-namespace TagsCloudVisualisation
+﻿namespace TagsCloudVisualisation
 {
     public class ConsoleClient : IClient
     {
-        private readonly IContainer container;
+        private readonly ICloudGenerator cloudGenerator;
+        private readonly ICloudVisualizer visualizer;
 
-        public ConsoleClient(IContainer container)
+        public ConsoleClient(ICloudGenerator cloudGenerator, ICloudVisualizer visualizer)
         {
-            this.container = container;
+            this.cloudGenerator = cloudGenerator;
+            this.visualizer = visualizer;
         }
 
         public void Run()
         {
-            var provider = container.Resolve<ICloudProvider>();
-            provider.ProvideCloud("Cloud of lorem ipsum");
+            var cloud = cloudGenerator.GenerateCloud();
+            visualizer.Visualize(cloud, "Cloud of lorem ipsum");
         }
     }
 }
