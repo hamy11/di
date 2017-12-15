@@ -12,12 +12,11 @@ namespace TagsCloudVisualisation
             this.pointPlacer = pointPlacer;
         }
 
-        public Rectangle PutNextRectangle(Size rectangleSize)
+        public Result<Rectangle> PutNextRectangle(Size rectangleSize)
         {
-            if (rectangleSize.Height * rectangleSize.Width == 0)
-                throw new ArgumentException("Сторона прямоугольника для текста не может быть равна 0");
-
-            return pointPlacer.PlaceNextRectangle(rectangleSize);
+            return rectangleSize.Height * rectangleSize.Width == 0
+                ? Result.Fail<Rectangle>("Площадь прямоугольника слова не может быть равна 0")
+                : Result.Of(() => pointPlacer.PlaceNextRectangle(rectangleSize));
         }
     }
 }

@@ -29,8 +29,8 @@ namespace TagsCloudVisualisation.Tests
         {
             if (!TestContext.CurrentContext.Result.Outcome.Status.Equals(TestStatus.Failed)) return;
             var path = $"{TestContext.CurrentContext.TestDirectory}\\{TestContext.CurrentContext.Test.Name}";
-            var visualizer = new CloudVisualizer(new VisualizeSettings { DrawWordRectangle = true });
-            visualizer.Visualize(cloud, path);
+            //var visualizer = new CloudVisualizer(new VisualizeSettings { DrawWordRectangle = true });
+            //visualizer.Visualize(cloud, path);
             Console.WriteLine($"Tag cloud visualization saved to file {path}");
         }
 
@@ -42,7 +42,7 @@ namespace TagsCloudVisualisation.Tests
             var secondRectangle = placer.PlaceNextRectangle(new Size(10, 10));
             var scaleInfo = new WordScaleInfo(new Size(), 10);
             var printData = new List<Rectangle> {firstRectangle, secondRectangle}.Select(x => new WordPrintInfo("", x, scaleInfo));
-            cloud = new Cloud(printData);
+            //cloud = new Cloud(printData);
             firstRectangle.IntersectsWith(secondRectangle).Should().BeFalse();
         }
 
@@ -62,7 +62,7 @@ namespace TagsCloudVisualisation.Tests
                 rectangles.Add(rectangle);
             }
             var scaleInfo = new WordScaleInfo(new Size(), 10);
-            cloud = new Cloud(rectangles.Select(x => new WordPrintInfo("", x, scaleInfo)));
+            //cloud = new Cloud(rectangles.Select(x => new WordPrintInfo("", x, scaleInfo)));
             for (var i = 0; i < count; i++)
                 for (var j = i + 1; j < count; j++)
                 {
@@ -100,7 +100,7 @@ namespace TagsCloudVisualisation.Tests
                     radius = distanse;
             }
             var circumscribedSquare = Math.PI*Math.Pow(radius, 2);
-            cloud = new Cloud(datas);
+            //cloud = new Cloud(datas);
             circumscribedSquare.Should().BeLessOrEqualTo(summaryRectanglesSquare*1.1);
         }
     }

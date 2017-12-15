@@ -8,20 +8,33 @@ namespace TagsCloudVisualisation
     {
         private readonly IObjectSerializer serializer;
         private readonly IBlobStorage storage;
-        private string settingsFilename;
+        private readonly IErrorHandler handler;
+        private const string SettingsFilename = "app.settings";
 
-        public SettingsManager(IObjectSerializer serializer, IBlobStorage storage)
+        public SettingsManager(IObjectSerializer serializer, IBlobStorage storage, IErrorHandler handler)
         {
             this.serializer = serializer;
             this.storage = storage;
+            this.handler = handler;
         }
 
         public AppSettings Load()
         {
+            var readResult = Read();
+            var desearializeResult = Desearialize(readResult)
+                .OnFail(handler.Log);
+
+            if (desearializeResult.IsSuccess)
+                return desearializeResult.Value;
+            
+            var defaultSettings = CreateDefaultSettings();
+            Save(defaultSettings);
+            return defaultSettings;
+
+            /*
             try
             {
-                settingsFilename = "app.settings";
-                var data = storage.Get(settingsFilename);
+                var data = storage.Get(SettingsFilename);
                 if (data != null) return serializer.Deserialize<AppSettings>(data);
                 var defaultSettings = CreateDefaultSettings();
                 Save(defaultSettings);
@@ -30,7 +43,19 @@ namespace TagsCloudVisualisation
             catch (Exception e)
             {
                 return CreateDefaultSettings();
-            }
+            }*/
+        }
+
+        private Result<AppSettings> Desearialize(Result<byte[]> readResult)
+        {
+            return readResult.IsSuccess
+                ? Result.Of(() => serializer.Deserialize<AppSettings>(readResult.Value), "Настройки не корректны")
+                : Result.Fail<AppSettings>(readResult.Error);
+        }
+
+        private Result<byte[]> Read()
+        {
+            return Result.Of(() => storage.Get(SettingsFilename), "Ошибка чтения файла");
         }
 
         public static AppSettings CreateDefaultSettings()
@@ -44,7 +69,9 @@ namespace TagsCloudVisualisation
 
         public void Save(AppSettings settings)
         {
-            storage.Set(settingsFilename, serializer.Serialize(settings));
+            var saveResult = Result.OfAction(() => storage.Set(SettingsFilename, serializer.Serialize(settings)));
+            if(!saveResult.IsSuccess)
+                handler.Log(saveResult.Error);
         }
     }
 }

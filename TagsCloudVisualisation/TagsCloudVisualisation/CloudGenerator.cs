@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace TagsCloudVisualisation
 {
@@ -7,25 +9,41 @@ namespace TagsCloudVisualisation
         private readonly IWordContainer container;
         private readonly ICloudLayouter layouter;
         private readonly IWordScaler wordScaler;
+        private readonly IErrorHandler handler;
 
-        public CloudGenerator(IWordContainer container, ICloudLayouter layouter, IWordScaler wordScaler)
+        public CloudGenerator(IWordContainer container, ICloudLayouter layouter, IWordScaler wordScaler, IErrorHandler handler)
         {
             this.container = container;
             this.layouter = layouter;
             this.wordScaler = wordScaler;
+            this.handler = handler;
         }
-
+        
         public Cloud GenerateCloud()
         {
-            var printData = container.GetProcessedWords().Select(PrerapeWordDataToPrint).ToList();
+            var printData = container.GetWordDatas()
+                .Select(PrerapeWordDataToPrint)
+                .HandleErrors(handler.Log);
+
             return new Cloud(printData);
         }
 
-        private WordPrintInfo PrerapeWordDataToPrint(WordData wordData)
+        private Result<WordPrintInfo> PrerapeWordDataToPrint(WordData wordData)
         {
             var wordScaleInfo = wordScaler.GetWordScaleInfo(wordData);
-            var wordAsRectangle = layouter.PutNextRectangle(wordScaleInfo.WordRectangleSize);
-            return new WordPrintInfo(wordData.Word, wordAsRectangle, wordScaleInfo);
+            var result = layouter.PutNextRectangle(wordScaleInfo.WordRectangleSize);
+            return result.IsSuccess
+                ? Result.Of(() => new WordPrintInfo(wordData.Word, result.Value, wordScaleInfo))
+                : Result.Fail<WordPrintInfo>($"Слово  {wordData.Word} не было добавлено: {result.Error}");
         }
     }
+
+    public static class Extensions
+    {
+        public static IEnumerable<T> HandleErrors<T>(this IEnumerable<Result<T>> enumerable, Action<string> handler)
+        {
+            return enumerable.Where(x => x.OnFail(handler).IsSuccess).Select(x=>x.Value);
+        }
+    }
+
 }

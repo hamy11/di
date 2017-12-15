@@ -22,11 +22,11 @@ namespace TagsCloudVisualisation.Tests
         {
             var size = new Size(10, 10);
             var p = new Point(size);
-            var cloudLayouter = Mock
-                .Of<ICloudLayouter>(layouter => layouter.PutNextRectangle(size) == new Rectangle(p, size));
-            var nextRectangle = cloudLayouter.PutNextRectangle(size);
+            //var cloudLayouter = Mock
+            //    .Of<ICloudLayouter>(layouter => layouter.PutNextRectangle(size) == new Rectangle(p, size));
+            //var nextRectangle = cloudLayouter.PutNextRectangle(size);
 
-            new Rectangle(p, size).ShouldBeEquivalentTo(nextRectangle);
+            //new Rectangle(p, size).ShouldBeEquivalentTo(nextRectangle);
         }
 
         [Test]

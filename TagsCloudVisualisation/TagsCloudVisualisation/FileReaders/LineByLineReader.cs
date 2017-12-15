@@ -13,8 +13,7 @@ namespace TagsCloudVisualisation.FileReaders
 
         public override IEnumerable<WordData> GetWords()
         {
-            var data = File.ReadAllLines(ReadFileSettings.FileName);
-            foreach (var word in data)
+            foreach (var word in File.ReadLines(ReadFileSettings.FileName))
             {
                 var parts = word.Split(null);
                 if (parts.Length < 2)

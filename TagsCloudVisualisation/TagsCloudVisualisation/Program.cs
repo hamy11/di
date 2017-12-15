@@ -1,4 +1,5 @@
-﻿using Autofac;
+﻿using System;
+using Autofac;
 using TagsCloudVisualisation.ArchimedianSpiralPlacer;
 using TagsCloudVisualisation.Common;
 using TagsCloudVisualisation.FileReaders;
@@ -41,8 +42,24 @@ namespace TagsCloudVisualisation
             builder.RegisterType<CloudVisualizer>().As<ICloudVisualizer>().SingleInstance();
             builder.RegisterType<CloudGenerator>().As<ICloudGenerator>().SingleInstance();
             builder.RegisterType<ConsoleClient>().AsImplementedInterfaces().SingleInstance();
+
+            builder.RegisterType<ConsoleErrorHandler>().AsImplementedInterfaces().SingleInstance();
             
             return builder.Build();
+        }
+
+    }
+
+    public interface IErrorHandler
+    {
+        void Log(string error);
+    }
+
+    public class ConsoleErrorHandler : IErrorHandler
+    {
+        public void Log(string error)
+        {
+            Console.WriteLine(error);
         }
     }
 }
