@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Drawing;
+using System.IO;
+using System.Linq;
 using TagsCloudVisualisation.Common;
 using TagsCloudVisualisation.Settings;
 
@@ -24,39 +27,56 @@ namespace TagsCloudVisualisation
             var desearializeResult = Desearialize(readResult)
                 .OnFail(handler.Log);
 
-            if (desearializeResult.IsSuccess)
-                return desearializeResult.Value;
-            
+            return desearializeResult.IsSuccess
+                ? desearializeResult.Value
+                : SetDefaultSettings();
+        }
+
+        private AppSettings SetDefaultSettings()
+        {
             var defaultSettings = CreateDefaultSettings();
             Save(defaultSettings);
             return defaultSettings;
-
-            /*
-            try
-            {
-                var data = storage.Get(SettingsFilename);
-                if (data != null) return serializer.Deserialize<AppSettings>(data);
-                var defaultSettings = CreateDefaultSettings();
-                Save(defaultSettings);
-                return defaultSettings;
-            }
-            catch (Exception e)
-            {
-                return CreateDefaultSettings();
-            }*/
-        }
-
-        private Result<AppSettings> Desearialize(Result<byte[]> readResult)
-        {
-            return readResult.IsSuccess
-                ? Result.Of(() => serializer.Deserialize<AppSettings>(readResult.Value), "Настройки не корректны")
-                : Result.Fail<AppSettings>(readResult.Error);
         }
 
         private Result<byte[]> Read()
         {
             return Result.Of(() => storage.Get(SettingsFilename), "Ошибка чтения файла");
         }
+
+        private Result<AppSettings> Desearialize(Result<byte[]> readResult)
+        {
+            return Result.Of(() => serializer.Deserialize<AppSettings>(readResult.Value))
+                .Then(ValidateIsNotNullSettings)
+                .Then(ValidateIsContentFileExists)
+                .Then(ValidateIsFontExists)
+                .RefineError("Ошибка при десериализации файла настроек. Будут применены стандартные настройки");
+        }
+
+        private static Result<AppSettings> ValidateIsNotNullSettings(AppSettings settings)
+        {
+            return Validate(settings, s => s.ReadFileSettings != null && s.VisualizeSettings != null,
+                "Настройки указаны некорректно");
+        }
+
+        private static Result<AppSettings> ValidateIsContentFileExists(AppSettings settings)
+        {
+            return Validate(settings, s => File.Exists(s.ReadFileSettings.FileName),
+                "Файл настроек не найден");
+        }
+        private static Result<AppSettings> ValidateIsFontExists(AppSettings settings)
+        {
+            return Validate(settings, s => FontFamily.Families.Any(x=>x.Name == s.VisualizeSettings.FontFamilyName),
+                "Указанный шрифт не найден");
+        }
+
+        private static Result<T> Validate<T>(T obj, Func<T, bool> predicate, string errorMessage)
+        {
+            return predicate(obj)
+                ? Result.Ok(obj)
+                : Result.Fail<T>(errorMessage);
+        }
+
 
         public static AppSettings CreateDefaultSettings()
         {
@@ -70,7 +90,7 @@ namespace TagsCloudVisualisation
         public void Save(AppSettings settings)
         {
             var saveResult = Result.OfAction(() => storage.Set(SettingsFilename, serializer.Serialize(settings)));
-            if(!saveResult.IsSuccess)
+            if (!saveResult.IsSuccess)
                 handler.Log(saveResult.Error);
         }
     }
