@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TagsCloudVisualisation
 {
-
     public class None
     {
         private None()
@@ -121,8 +116,8 @@ namespace TagsCloudVisualisation
             this Result<TInput> input,
             Func<string, string> replaceError)
         {
-            return input.IsSuccess 
-                ? input 
+            return input.IsSuccess
+                ? input
                 : Fail<TInput>(replaceError(input.Error));
         }
 
@@ -132,24 +127,5 @@ namespace TagsCloudVisualisation
         {
             return input.ReplaceError(err => errorMessage + ". " + err);
         }
-        
-        public static IEnumerable<Result<TInput>> RefineErrors<TInput>(
-            this IEnumerable<Result<TInput>> input,
-            string errorMessage)
-        {
-            return input.Select(x=>x.ReplaceError(err => errorMessage + ". " + err));
-        }
-
-        public static IEnumerable<Result<TInput>> Then<TInput>(
-            this IEnumerable<Result<TInput>> input,
-            Action<TInput> continuation)
-        {
-            foreach (var result in input)
-            {
-                result.Then(inp => OfAction(() => continuation(inp)));
-                yield return result;
-            }
-        }
     }
 }
-
