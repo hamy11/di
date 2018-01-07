@@ -42,12 +42,12 @@ namespace TagsCloudVisualisation
 
         private Result<byte[]> Read()
         {
-            return Result.Of(() => storage.Get(SettingsFilename), "Ошибка чтения файла");
+            return Of(() => storage.Get(SettingsFilename), "Ошибка чтения файла");
         }
 
         private Result<AppSettings> Desearialize(Result<byte[]> readResult)
         {
-            return Result.Of(() => serializer.Deserialize<AppSettings>(readResult.Value))
+            return Of(() => serializer.Deserialize<AppSettings>(readResult.Value))
                 .Then(ValidateIsNotNullSettings)
                 .Then(ValidateIsContentFileExists)
                 .Then(ValidateIsFontExists)
@@ -84,7 +84,7 @@ namespace TagsCloudVisualisation
 
         public void Save(AppSettings settings)
         {
-            var saveResult = Result.OfAction(() => storage.Set(SettingsFilename, serializer.Serialize(settings)));
+            var saveResult = OfAction(() => storage.Set(SettingsFilename, serializer.Serialize(settings)));
             if (!saveResult.IsSuccess)
                 handler.Log(saveResult.Error);
         }
