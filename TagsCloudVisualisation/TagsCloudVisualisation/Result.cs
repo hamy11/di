@@ -81,8 +81,7 @@ namespace TagsCloudVisualisation
             }
         }
 
-        public static Result<TOutput> Then<TInput, TOutput>(
-            this Result<TInput> input,
+        public static Result<TOutput> Then<TInput, TOutput>(this Result<TInput> input,
             Func<TInput, TOutput> continuation)
         {
             return input.Then(inp => Of(() => continuation(inp)));
@@ -91,6 +90,11 @@ namespace TagsCloudVisualisation
         public static Result<None> Then<TInput>(this Result<TInput> input, Action<TInput> continuation)
         {
             return input.Then(inp => OfAction(() => continuation(inp)));
+        }
+
+        public static Result<None> Then<TInput>(this Result<TInput> input, Action continuation)
+        {
+            return input.Then(inp => OfAction(continuation));
         }
 
         public static Result<TOutput> Then<TInput, TOutput>(

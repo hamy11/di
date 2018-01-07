@@ -51,9 +51,10 @@ namespace TagsCloudVisualisation
         private Result<None> TryDrawWord(Graphics graphics, WordPrintInfo printInfo)
         {
             var rect = new Rectangle(new Point(), new Size(settings.BitmapWidth, settings.BitmapHeight));
-            return !rect.Contains(printInfo.WordRectangle)
-                ? Result.Fail<None>($"Слово {printInfo.Word} не влезло на изображение заданного размера")
-                : Result.OfAction(() => PrintWord(graphics, printInfo));
+            return Result
+                .Validate(rect, r => r.Contains(printInfo.WordRectangle),
+                    $"Слово {printInfo.Word} не влезло на изображение заданного размера")
+                .Then(() => PrintWord(graphics, printInfo));
         }
 
         private void PrintWord(Graphics graphics, WordPrintInfo printInfo)
