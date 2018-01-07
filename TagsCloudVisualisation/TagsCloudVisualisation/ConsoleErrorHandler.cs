@@ -1,6 +1,5 @@
 ﻿using System;
 
-
 namespace TagsCloudVisualisation
 {
     public class ConsoleErrorHandler : IErrorHandler

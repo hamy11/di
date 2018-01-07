@@ -14,7 +14,7 @@ namespace TagsCloudVisualisation
         public Result<Rectangle> PutNextRectangle(Size rectangleSize)
         {
             return Result.Validate(rectangleSize, size => size.Height * size.Width != 0,
-                "Площадь прямоугольника слова не может быть равна 0")
+                    "Площадь прямоугольника слова не может быть равна 0")
                 .Then(size => pointPlacer.PlaceNextRectangle(size));
         }
     }

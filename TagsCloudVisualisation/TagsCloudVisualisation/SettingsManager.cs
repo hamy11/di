@@ -1,10 +1,8 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
 using System.IO;
 using System.Linq;
 using TagsCloudVisualisation.Common;
 using TagsCloudVisualisation.Settings;
-using static TagsCloudVisualisation.Result;
 
 namespace TagsCloudVisualisation
 {
@@ -42,12 +40,12 @@ namespace TagsCloudVisualisation
 
         private Result<byte[]> Read()
         {
-            return Of(() => storage.Get(SettingsFilename), "Ошибка чтения файла");
+            return Result.Of(() => storage.Get(SettingsFilename), "Ошибка чтения файла");
         }
 
         private Result<AppSettings> Desearialize(Result<byte[]> readResult)
         {
-            return Of(() => serializer.Deserialize<AppSettings>(readResult.Value))
+            return Result.Of(() => serializer.Deserialize<AppSettings>(readResult.Value))
                 .Then(ValidateIsNotNullSettings)
                 .Then(ValidateIsContentFileExists)
                 .Then(ValidateIsFontExists)
@@ -56,19 +54,20 @@ namespace TagsCloudVisualisation
 
         private static Result<AppSettings> ValidateIsNotNullSettings(AppSettings settings)
         {
-            return Validate(settings, s => s.ReadFileSettings != null && s.VisualizeSettings != null,
+            return Result.Validate(settings, s => s.ReadFileSettings != null && s.VisualizeSettings != null,
                 "Настройки указаны некорректно");
         }
 
         private static Result<AppSettings> ValidateIsContentFileExists(AppSettings settings)
         {
-            return Validate(settings, s => File.Exists(s.ReadFileSettings.FileName),
+            return Result.Validate(settings, s => File.Exists(s.ReadFileSettings.FileName),
                 "Файл настроек не найден");
         }
 
         private static Result<AppSettings> ValidateIsFontExists(AppSettings settings)
         {
-            return Validate(settings, s => FontFamily.Families.Any(x => x.Name == s.VisualizeSettings.FontFamilyName),
+            return Result.Validate(settings,
+                s => FontFamily.Families.Any(x => x.Name == s.VisualizeSettings.FontFamilyName),
                 "Указанный шрифт не найден");
         }
 
@@ -84,7 +83,7 @@ namespace TagsCloudVisualisation
 
         public void Save(AppSettings settings)
         {
-            var saveResult = OfAction(() => storage.Set(SettingsFilename, serializer.Serialize(settings)));
+            var saveResult = Result.OfAction(() => storage.Set(SettingsFilename, serializer.Serialize(settings)));
             if (!saveResult.IsSuccess)
                 handler.Log(saveResult.Error);
         }

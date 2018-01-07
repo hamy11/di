@@ -19,7 +19,7 @@ namespace TagsCloudVisualisation
             font = new Font(settings.FontFamilyName, settings.FontEmSize, FontStyle.Regular, GraphicsUnit.Pixel);
         }
 
-        private static Graphics ProvideGraphics(Bitmap bitmap)
+        private static Graphics ProvideGraphics(Image bitmap)
         {
             var graphics = Graphics.FromImage(bitmap);
             graphics.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;

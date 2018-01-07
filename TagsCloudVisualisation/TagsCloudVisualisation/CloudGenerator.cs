@@ -9,14 +9,15 @@ namespace TagsCloudVisualisation
         private readonly IWordScaler wordScaler;
         private readonly IErrorHandler handler;
 
-        public CloudGenerator(IWordContainer container, ICloudLayouter layouter, IWordScaler wordScaler, IErrorHandler handler)
+        public CloudGenerator(IWordContainer container, ICloudLayouter layouter, IWordScaler wordScaler,
+            IErrorHandler handler)
         {
             this.container = container;
             this.layouter = layouter;
             this.wordScaler = wordScaler;
             this.handler = handler;
         }
-        
+
         public Cloud GenerateCloud()
         {
             var printData = container.GetWordDatas()

@@ -4,6 +4,6 @@
     {
         None = 0,
         Doc = 1,
-        DocX = 2,
+        DocX = 2
     }
 }

@@ -15,14 +15,14 @@ namespace TagsCloudVisualisation.ArchimedianSpiralPlacer
         {
             this.settings = settings;
             placedRectangles = new List<Rectangle>();
-            spiral = Enumerable.Range(0, Int32.MaxValue).Select(ArchimedeanPoint);
+            spiral = Enumerable.Range(0, int.MaxValue).Select(ArchimedeanPoint);
         }
 
         public Rectangle PlaceNextRectangle(Size size)
         {
             var rectangle = spiral.Select(point => BuildRectangleOnCenterPoint(point, size))
                 .First(current => !placedRectangles.Any(other => other.IntersectsWith(current)))
-                .ApproachToCenter(settings.Center,placedRectangles);
+                .ApproachToCenter(settings.Center, placedRectangles);
 
             placedRectangles.Add(rectangle);
 
@@ -31,18 +31,19 @@ namespace TagsCloudVisualisation.ArchimedianSpiralPlacer
 
         private Point ArchimedeanPoint(int degrees)
         {
-            var theta = degrees*Math.PI/180;
-            var radius = settings.RadiusStep + settings.TurningDistance*theta;
+            var theta = degrees * Math.PI / 180;
+            var radius = settings.RadiusStep + settings.TurningDistance * theta;
             return new Point
             {
-                X = (int) (settings.Center.X + radius*Math.Cos(theta)),
-                Y = (int) (settings.Center.Y + radius*Math.Sin(theta))
+                X = (int) (settings.Center.X + radius * Math.Cos(theta)),
+                Y = (int) (settings.Center.Y + radius * Math.Sin(theta))
             };
         }
 
         private static Rectangle BuildRectangleOnCenterPoint(Point point, Size size)
         {
-            var centralizedRectangle = new Rectangle(new Point(point.X - size.Width/2, point.Y - size.Height/2), size);
+            var centralizedRectangle =
+                new Rectangle(new Point(point.X - size.Width / 2, point.Y - size.Height / 2), size);
             return centralizedRectangle;
         }
     }
