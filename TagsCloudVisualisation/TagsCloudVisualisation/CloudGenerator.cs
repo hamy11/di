@@ -31,10 +31,10 @@ namespace TagsCloudVisualisation
         private Result<WordPrintInfo> PrerapeWordDataToPrint(WordData wordData)
         {
             var wordScaleInfo = wordScaler.GetWordScaleInfo(wordData);
-            var result = layouter.PutNextRectangle(wordScaleInfo.WordRectangleSize);
-            return result.IsSuccess
-                ? Result.Of(() => new WordPrintInfo(wordData.Word, result.Value, wordScaleInfo))
-                : Result.Fail<WordPrintInfo>($"Слово  {wordData.Word} не было добавлено: {result.Error}");
+            return layouter
+                .PutNextRectangle(wordScaleInfo.WordRectangleSize)
+                .Then(wordRectangle => new WordPrintInfo(wordData.Word, wordRectangle, wordScaleInfo))
+                .RefineError($"Слово  {wordData.Word} не было добавлено");
         }
     }
 

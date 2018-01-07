@@ -90,11 +90,8 @@
     <Compile Include="IWordContainer.cs" />
     <Compile Include="IWordScaler.cs" />
     <Compile Include="SettingsManager.cs" />
-    <Compile Include="Tests\ArchimedianSpiralPlacerShould.cs" />
-    <Compile Include="Tests\CloudGeneratorShould.cs" />
     <Compile Include="WordProcessors\BoringWordRemover.cs" />
     <Compile Include="CircularCloudLayouter.cs" />
-    <Compile Include="Tests\CircularCloudLayouterShould.cs" />
     <Compile Include="Cloud.cs" />
     <Compile Include="CloudGenerator.cs" />
     <Compile Include="CloudVisualizer.cs" />

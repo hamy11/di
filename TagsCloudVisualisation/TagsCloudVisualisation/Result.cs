@@ -88,9 +88,7 @@ namespace TagsCloudVisualisation
             return input.Then(inp => Of(() => continuation(inp)));
         }
 
-        public static Result<None> Then<TInput>(
-            this Result<TInput> input,
-            Action<TInput> continuation)
+        public static Result<None> Then<TInput>(this Result<TInput> input, Action<TInput> continuation)
         {
             return input.Then(inp => OfAction(() => continuation(inp)));
         }
@@ -126,6 +124,13 @@ namespace TagsCloudVisualisation
             string errorMessage)
         {
             return input.ReplaceError(err => errorMessage + ". " + err);
+        }
+
+        public static Result<T> Validate<T>(T obj, Func<T, bool> predicate, string errorMessage)
+        {
+            return predicate(obj)
+                ? Ok(obj)
+                : Fail<T>(errorMessage);
         }
     }
 }

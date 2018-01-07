@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using TagsCloudVisualisation.Common;
 using TagsCloudVisualisation.Settings;
+using static TagsCloudVisualisation.Result;
 
 namespace TagsCloudVisualisation
 {
@@ -64,17 +65,11 @@ namespace TagsCloudVisualisation
             return Validate(settings, s => File.Exists(s.ReadFileSettings.FileName),
                 "Файл настроек не найден");
         }
+
         private static Result<AppSettings> ValidateIsFontExists(AppSettings settings)
         {
-            return Validate(settings, s => FontFamily.Families.Any(x=>x.Name == s.VisualizeSettings.FontFamilyName),
+            return Validate(settings, s => FontFamily.Families.Any(x => x.Name == s.VisualizeSettings.FontFamilyName),
                 "Указанный шрифт не найден");
-        }
-
-        private static Result<T> Validate<T>(T obj, Func<T, bool> predicate, string errorMessage)
-        {
-            return predicate(obj)
-                ? Result.Ok(obj)
-                : Result.Fail<T>(errorMessage);
         }
 
 
