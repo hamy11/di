@@ -72,7 +72,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\JsonObjectSerializer.cs" />
+    <Compile Include="ConsoleErrorHandler.cs" />
     <Compile Include="EnumerableExtensions.cs" />
+    <Compile Include="FileReaders\FileFormat.cs" />
+    <Compile Include="IErrorHandler.cs" />
     <Compile Include="Result.cs" />
     <Compile Include="Settings\AppSettings.cs" />
     <Compile Include="ArchimedianSpiralPlacer\ArchimedeanSpiralPlacer.cs" />
