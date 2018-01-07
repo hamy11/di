@@ -72,6 +72,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\JsonObjectSerializer.cs" />
+    <Compile Include="ConsoleErrorHandler.cs" />
+    <Compile Include="EnumerableExtensions.cs" />
+    <Compile Include="FileReaders\FileFormat.cs" />
+    <Compile Include="IErrorHandler.cs" />
+    <Compile Include="Result.cs" />
     <Compile Include="Settings\AppSettings.cs" />
     <Compile Include="ArchimedianSpiralPlacer\ArchimedeanSpiralPlacer.cs" />
     <Compile Include="ArchimedianSpiralPlacer\ArchimedeanSpiralPlacerDefaultSettings.cs" />
@@ -89,11 +94,8 @@
     <Compile Include="IWordContainer.cs" />
     <Compile Include="IWordScaler.cs" />
     <Compile Include="SettingsManager.cs" />
-    <Compile Include="Tests\ArchimedianSpiralPlacerShould.cs" />
-    <Compile Include="Tests\CloudGeneratorShould.cs" />
     <Compile Include="WordProcessors\BoringWordRemover.cs" />
     <Compile Include="CircularCloudLayouter.cs" />
-    <Compile Include="Tests\CircularCloudLayouterShould.cs" />
     <Compile Include="Cloud.cs" />
     <Compile Include="CloudGenerator.cs" />
     <Compile Include="CloudVisualizer.cs" />

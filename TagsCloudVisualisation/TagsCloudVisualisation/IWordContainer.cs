@@ -4,6 +4,6 @@ namespace TagsCloudVisualisation
 {
     public interface IWordContainer
     {
-        IEnumerable<WordData> GetProcessedWords();
+        IEnumerable<WordData> GetWordDatas();
     }
 }

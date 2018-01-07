@@ -15,7 +15,7 @@ namespace TagsCloudVisualisation
             wordDatas = fileReader.GetWords();
         }
 
-        public IEnumerable<WordData> GetProcessedWords()
+        public IEnumerable<WordData> GetWordDatas()
         {
             return processors.Aggregate(wordDatas, (current, processor) => processor.ProcessWordData(current));
         }

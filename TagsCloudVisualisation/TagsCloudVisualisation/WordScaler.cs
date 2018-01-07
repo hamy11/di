@@ -26,15 +26,20 @@ namespace TagsCloudVisualisation
             var printSize = new Size((int) Math.Ceiling(realSize.Width * sizeMultiplier),
                 (int) Math.Ceiling(realSize.Height * sizeMultiplier));
 
+            var scaleRatio = ComputeScaleRatio(printSize, realSize);
+            var scaleFontSize = font.Size * scaleRatio * marging;
+
+            return new WordScaleInfo(printSize, scaleFontSize);
+        }
+
+        private static double ComputeScaleRatio(Size printSize, SizeF realSize)
+        {
             var heightScaleRatio = (double) printSize.Height / realSize.Height;
             var widthScaleRatio = (double) printSize.Width / realSize.Width;
             var scaleRatio = heightScaleRatio < widthScaleRatio
                 ? heightScaleRatio
                 : widthScaleRatio;
-
-            var scaleFontSize = font.Size * scaleRatio * marging;
-
-            return new WordScaleInfo(printSize, scaleFontSize);
+            return scaleRatio;
         }
     }
 }

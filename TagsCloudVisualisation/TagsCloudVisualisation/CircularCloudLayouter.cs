@@ -1,5 +1,4 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
 
 namespace TagsCloudVisualisation
 {
@@ -12,12 +11,11 @@ namespace TagsCloudVisualisation
             this.pointPlacer = pointPlacer;
         }
 
-        public Rectangle PutNextRectangle(Size rectangleSize)
+        public Result<Rectangle> PutNextRectangle(Size rectangleSize)
         {
-            if (rectangleSize.Height * rectangleSize.Width == 0)
-                throw new ArgumentException("Сторона прямоугольника для текста не может быть равна 0");
-
-            return pointPlacer.PlaceNextRectangle(rectangleSize);
+            return Result.Validate(rectangleSize, size => size.Height * size.Width != 0,
+                    "Площадь прямоугольника слова не может быть равна 0")
+                .Then(size => pointPlacer.PlaceNextRectangle(size));
         }
     }
 }

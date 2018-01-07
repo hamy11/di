@@ -12,10 +12,12 @@ namespace TagsCloudVisualisation
     {
         private static void Main(string[] args)
         {
+            //TODO fp
             var container = GetDefaultContainer();
             var client = container.Resolve<IClient>();
             client.Run();
         }
+
         private static IContainer GetDefaultContainer()
         {
             var builder = new ContainerBuilder();
@@ -27,7 +29,8 @@ namespace TagsCloudVisualisation
             builder.Register(c => c.Resolve<AppSettings>().VisualizeSettings).As<IVisualizeSettings>().SingleInstance();
             builder.Register(c => c.Resolve<AppSettings>().ReadFileSettings).As<IReadFileSettings>().SingleInstance();
 
-            builder.Register(c => new ArchimedeanSpiralPlacerDefaultSettings()).AsImplementedInterfaces().SingleInstance();
+            builder.Register(c => new ArchimedeanSpiralPlacerDefaultSettings()).AsImplementedInterfaces()
+                .SingleInstance();
 
             builder.RegisterType<WordScaler>().As<IWordScaler>().SingleInstance();
 
@@ -40,7 +43,9 @@ namespace TagsCloudVisualisation
             builder.RegisterType<CloudVisualizer>().As<ICloudVisualizer>().SingleInstance();
             builder.RegisterType<CloudGenerator>().As<ICloudGenerator>().SingleInstance();
             builder.RegisterType<ConsoleClient>().AsImplementedInterfaces().SingleInstance();
-            
+
+            builder.RegisterType<ConsoleErrorHandler>().AsImplementedInterfaces().SingleInstance();
+
             return builder.Build();
         }
     }

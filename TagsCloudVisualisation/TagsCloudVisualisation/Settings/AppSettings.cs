@@ -1,6 +1,4 @@
-﻿using TagsCloudVisualisation.FileReaders;
-
-namespace TagsCloudVisualisation.Settings
+﻿namespace TagsCloudVisualisation.Settings
 {
     public class AppSettings
     {
